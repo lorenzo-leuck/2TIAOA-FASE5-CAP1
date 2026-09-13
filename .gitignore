@@ -1,0 +1,13 @@
+*.csv
+*.tsv
+*.xls
+*.xlsx
+*.pio
+*.vscode
+venv
+node_modules
+build
+dist
+.env
+server.log
+.expo

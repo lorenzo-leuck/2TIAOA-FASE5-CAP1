@@ -1,0 +1,102 @@
+{
+  "name": "CardioIA",
+  "type": "action",
+  "language": "pt-br",
+  "workspace": {
+    "actions": [
+      {
+        "type": "standard", "action": "cardioia_saudacao",
+        "title": "Saudacao",
+        "condition": {"intent": "cardioia_saudacao_intent"},
+        "steps": [{"step": "cardioia_saudacao_step", "variable": "cardioia_saudacao_step", "output": {"generic": [{"response_type": "text", "values": [{"text_expression": {"concat": [{"scalar": "Ola! Sou o CardioIA. Posso ajudar com orientacoes gerais sobre pressao arterial e registro de medicoes."}]}}], "selection_policy": "sequential"}]}, "handlers": [], "resolver": {"type": "end_action"}}],
+        "boosts": [], "handlers": [], "variables": [],
+        "next_action": "cardioia_registrar_medicao",
+        "topic_switch": {"allowed_from": true, "allowed_into": true},
+        "disambiguation_opt_out": false
+      },
+      {
+        "type": "standard", "action": "cardioia_registrar_medicao",
+        "title": "Registrar medicao",
+        "condition": {"intent": "cardioia_registrar_medicao_intent"},
+        "steps": [{"step": "cardioia_registrar_medicao_step", "variable": "cardioia_registrar_medicao_step", "output": {"generic": [{"response_type": "text", "values": [{"text_expression": {"concat": [{"scalar": "Informe a medicao no formato sistolica por diastolica, por exemplo: 120 por 80."}]}}], "selection_policy": "sequential"}]}, "handlers": [], "resolver": {"type": "end_action"}}],
+        "boosts": [], "handlers": [], "variables": [],
+        "next_action": "cardioia_historico",
+        "topic_switch": {"allowed_from": true, "allowed_into": true},
+        "disambiguation_opt_out": false
+      },
+      {
+        "type": "standard", "action": "cardioia_historico",
+        "title": "Consultar historico",
+        "condition": {"intent": "cardioia_historico_intent"},
+        "steps": [{"step": "cardioia_historico_step", "variable": "cardioia_historico_step", "output": {"generic": [{"response_type": "text", "values": [{"text_expression": {"concat": [{"scalar": "Vou consultar as medicoes registradas nesta sessao."}]}}], "selection_policy": "sequential"}]}, "handlers": [], "resolver": {"type": "end_action"}}],
+        "boosts": [], "handlers": [], "variables": [],
+        "next_action": "cardioia_orientacao",
+        "topic_switch": {"allowed_from": true, "allowed_into": true},
+        "disambiguation_opt_out": false
+      },
+      {
+        "type": "standard", "action": "cardioia_orientacao",
+        "title": "Orientacao sobre pressao",
+        "condition": {"intent": "cardioia_orientacao_intent"},
+        "steps": [{"step": "cardioia_orientacao_step", "variable": "cardioia_orientacao_step", "output": {"generic": [{"response_type": "text", "values": [{"text_expression": {"concat": [{"scalar": "Uma medicao isolada nao confirma um diagnostico. Faca as medicoes corretamente e converse com um profissional de saude."}]}}], "selection_policy": "sequential"}]}, "handlers": [], "resolver": {"type": "end_action"}}],
+        "boosts": [], "handlers": [], "variables": [],
+        "next_action": "cardioia_urgencia",
+        "topic_switch": {"allowed_from": true, "allowed_into": true},
+        "disambiguation_opt_out": false
+      },
+      {
+        "type": "standard", "action": "cardioia_urgencia",
+        "title": "Sintomas urgentes",
+        "condition": {"intent": "cardioia_urgencia_intent"},
+        "steps": [{"step": "cardioia_urgencia_step", "variable": "cardioia_urgencia_step", "output": {"generic": [{"response_type": "text", "values": [{"text_expression": {"concat": [{"scalar": "Se os sintomas forem intensos ou persistentes, procure atendimento de emergencia imediatamente. Nao espere uma resposta do chatbot."}]}}], "selection_policy": "sequential"}]}, "handlers": [], "resolver": {"type": "end_action"}}],
+        "boosts": [], "handlers": [], "variables": [],
+        "next_action": "cardioia_ajuda",
+        "topic_switch": {"allowed_from": true, "allowed_into": true},
+        "disambiguation_opt_out": false
+      },
+      {
+        "type": "standard", "action": "cardioia_ajuda",
+        "title": "Ajuda",
+        "condition": {"intent": "cardioia_ajuda_intent"},
+        "steps": [{"step": "cardioia_ajuda_step", "variable": "cardioia_ajuda_step", "output": {"generic": [{"response_type": "text", "values": [{"text_expression": {"concat": [{"scalar": "Posso registrar medicoes, consultar o historico e fornecer orientacoes gerais sobre pressao arterial."}]}}], "selection_policy": "sequential"}]}, "handlers": [], "resolver": {"type": "end_action"}}],
+        "boosts": [], "handlers": [], "variables": [],
+        "next_action": "cardioia_encerrar",
+        "topic_switch": {"allowed_from": true, "allowed_into": true},
+        "disambiguation_opt_out": false
+      },
+      {
+        "type": "standard", "action": "cardioia_encerrar",
+        "title": "Encerrar conversa",
+        "condition": {"intent": "cardioia_encerrar_intent"},
+        "steps": [{"step": "cardioia_encerrar_step", "variable": "cardioia_encerrar_step", "output": {"generic": [{"response_type": "text", "values": [{"text_expression": {"concat": [{"scalar": "Ate mais. Cuide-se e procure um profissional de saude quando precisar."}]}}], "selection_policy": "sequential"}]}, "handlers": [], "resolver": {"type": "end_action"}}],
+        "boosts": [], "handlers": [], "variables": [],
+        "next_action": "fallback",
+        "topic_switch": {"allowed_from": true, "allowed_into": true},
+        "disambiguation_opt_out": false
+      },
+      {
+        "type": "standard", "action": "fallback",
+        "title": "Fallback",
+        "condition": {"expression": "anything_else"},
+        "steps": [{"step": "cardioia_fallback_step", "variable": "cardioia_fallback_step", "output": {"generic": [{"response_type": "text", "values": [{"text_expression": {"concat": [{"scalar": "Nao entendi. Posso ajudar a registrar uma medicao, consultar o historico ou explicar o acompanhamento da pressao."}]}}], "selection_policy": "sequential"}]}, "handlers": [], "resolver": {"type": "end_action"}}],
+        "boosts": [], "handlers": [], "variables": [],
+        "topic_switch": {"allowed_from": true, "allowed_into": true},
+        "disambiguation_opt_out": true
+      }
+    ],
+    "intents": [
+      {"intent": "cardioia_saudacao_intent", "examples": [{"text": "oi"}, {"text": "ola"}, {"text": "bom dia"}, {"text": "boa tarde"}, {"text": "quero falar com o assistente"}]},
+      {"intent": "cardioia_registrar_medicao_intent", "examples": [{"text": "quero registrar minha pressao"}, {"text": "anote minha medicao"}, {"text": "quero salvar uma pressao"}, {"text": "registrar pressao arterial"}, {"text": "tenho uma nova medicao"}]},
+      {"intent": "cardioia_historico_intent", "examples": [{"text": "mostre meu historico"}, {"text": "quais foram minhas medicoes"}, {"text": "ver minhas pressoes"}, {"text": "consulte meus registros"}, {"text": "quero consultar meu historico"}]},
+      {"intent": "cardioia_orientacao_intent", "examples": [{"text": "o que e pressao alta"}, {"text": "como acompanhar a pressao"}, {"text": "o que significa medir a pressao"}, {"text": "quero orientacao sobre pressao"}, {"text": "como cuidar da saude do coracao"}]},
+      {"intent": "cardioia_urgencia_intent", "examples": [{"text": "estou com dor no peito"}, {"text": "estou com falta de ar"}, {"text": "sinto fraqueza de repente"}, {"text": "estou tendo sintomas graves"}, {"text": "preciso de atendimento urgente"}]},
+      {"intent": "cardioia_ajuda_intent", "examples": [{"text": "o que voce faz"}, {"text": "preciso de ajuda"}, {"text": "quais opcoes existem"}, {"text": "como usar o assistente"}, {"text": "me ajude"}]},
+      {"intent": "cardioia_encerrar_intent", "examples": [{"text": "tchau"}, {"text": "ate mais"}, {"text": "encerrar"}, {"text": "pode finalizar"}, {"text": "obrigado"}]}
+    ],
+    "entities": [{"entity": "sys-number", "values": []}],
+    "variables": [],
+    "data_types": [],
+    "counterexamples": [],
+    "system_settings": {"topic_switch": {"enabled": true}, "disambiguation": {"enabled": true, "randomize": true, "max_suggestions": 5}, "spelling_auto_correct": true}
+  }
+}

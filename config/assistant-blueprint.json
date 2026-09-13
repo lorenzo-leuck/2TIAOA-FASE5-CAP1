@@ -1,0 +1,33 @@
+{
+  "name": "CardioIA",
+  "language": "pt-br",
+  "purpose": "Orientacao geral e registro de pressoes arteriais ficticias.",
+  "intents": [
+    {"name": "saudacao", "examples": ["oi", "ola", "bom dia", "boa tarde", "quero falar com o assistente"]},
+    {"name": "registrar_medicao", "examples": ["quero registrar minha pressao", "anote minha medicao", "quero salvar uma pressao", "registrar pressao arterial", "tenho uma nova medicao"]},
+    {"name": "consultar_historico", "examples": ["mostre meu historico", "quais foram minhas medicoes", "ver minhas pressoes", "consulte meus registros", "quero consultar meu historico"]},
+    {"name": "orientacao_pressao", "examples": ["o que e pressao alta", "como acompanhar a pressao", "o que significa medir a pressao", "quero orientacao sobre pressao", "como cuidar da saude do coracao"]},
+    {"name": "sintomas_urgentes", "examples": ["estou com dor no peito", "estou com falta de ar", "sinto fraqueza de repente", "estou tendo sintomas graves", "preciso de atendimento urgente"]},
+    {"name": "ajuda", "examples": ["o que voce faz", "preciso de ajuda", "quais opcoes existem", "como usar o assistente", "me ajude"]},
+    {"name": "encerrar", "examples": ["tchau", "ate mais", "encerrar", "pode finalizar", "obrigado"]}
+  ],
+  "entities": [
+    {"name": "sistolica", "description": "Valor superior da pressao arterial."},
+    {"name": "diastolica", "description": "Valor inferior da pressao arterial."},
+    {"name": "sintoma", "description": "Sintoma informado pelo usuario."}
+  ],
+  "dialog_nodes": [
+    {"name": "welcome", "condition": "welcome", "response": "Ola! Sou o CardioIA. Posso orientar sobre pressao e registrar medicoes."},
+    {"name": "sintomas_urgentes", "condition": "#sintomas_urgentes", "response": "Se os sintomas forem intensos ou persistentes, procure atendimento de emergencia imediatamente. Nao espere uma resposta do chatbot."},
+    {"name": "registrar_medicao", "condition": "#registrar_medicao", "response": "Informe sua medicao no formato sistolica por diastolica, por exemplo: 120 por 80."},
+    {"name": "consultar_historico", "condition": "#consultar_historico", "response": "Vou consultar as medicoes registradas nesta sessao."},
+    {"name": "orientacao_pressao", "condition": "#orientacao_pressao", "response": "Uma medicao isolada nao confirma um diagnostico. Registre os valores e converse com um profissional de saude."},
+    {"name": "help", "condition": "#ajuda", "response": "Posso registrar medicoes, consultar o historico e fornecer orientacoes gerais."},
+    {"name": "goodbye", "condition": "#encerrar", "response": "Ate mais. Cuide-se e procure um profissional quando precisar."},
+    {"name": "fallback", "condition": "anything_else", "response": "Nao entendi. Posso ajudar a registrar uma medicao, consultar o historico ou explicar o acompanhamento da pressao."}
+  ],
+  "safety": {
+    "disclaimer": "Este assistente nao diagnostica, nao prescreve e nao substitui um profissional de saude.",
+    "data": "Usar apenas dados ficticios ou anonimizados para demonstracao."
+  }
+}
