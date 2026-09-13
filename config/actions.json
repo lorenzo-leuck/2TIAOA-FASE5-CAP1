@@ -38,7 +38,7 @@
         "type": "standard", "action": "cardioia_orientacao",
         "title": "Orientacao sobre pressao",
         "condition": {"intent": "cardioia_orientacao_intent"},
-        "steps": [{"step": "cardioia_orientacao_step", "variable": "cardioia_orientacao_step", "output": {"generic": [{"response_type": "text", "values": [{"text_expression": {"concat": [{"scalar": "Uma medicao isolada nao confirma um diagnostico. Faca as medicoes corretamente e converse com um profissional de saude."}]}}], "selection_policy": "sequential"}]}, "handlers": [], "resolver": {"type": "end_action"}}],
+        "steps": [{"step": "cardioia_orientacao_step", "variable": "cardioia_orientacao_step", "output": {"generic": [{"response_type": "text", "values": [{"text_expression": {"concat": [{"scalar": "Pressao alta e quando a pressao do sangue nas arterias permanece elevada. Ela deve ser avaliada por medico com medicoes repetidas e contexto clinico. Nao interrompa ou inicie tratamentos por conta propria."}]}}], "selection_policy": "sequential"}]}, "handlers": [], "resolver": {"type": "end_action"}}],
         "boosts": [], "handlers": [], "variables": [],
         "next_action": "cardioia_urgencia",
         "topic_switch": {"allowed_from": true, "allowed_into": true},
@@ -86,9 +86,9 @@
     ],
     "intents": [
       {"intent": "cardioia_saudacao_intent", "examples": [{"text": "oi"}, {"text": "ola"}, {"text": "bom dia"}, {"text": "boa tarde"}, {"text": "quero falar com o assistente"}]},
-      {"intent": "cardioia_registrar_medicao_intent", "examples": [{"text": "quero registrar minha pressao"}, {"text": "anote minha medicao"}, {"text": "quero salvar uma pressao"}, {"text": "registrar pressao arterial"}, {"text": "tenho uma nova medicao"}]},
+      {"intent": "cardioia_registrar_medicao_intent", "examples": [{"text": "quero registrar minha pressao"}, {"text": "quero medir minha pressao"}, {"text": "quero medir minha pressoa"}, {"text": "anote minha medicao"}, {"text": "quero salvar uma pressao"}, {"text": "registrar pressao arterial"}, {"text": "tenho uma nova medicao"}]},
       {"intent": "cardioia_historico_intent", "examples": [{"text": "mostre meu historico"}, {"text": "quais foram minhas medicoes"}, {"text": "ver minhas pressoes"}, {"text": "consulte meus registros"}, {"text": "quero consultar meu historico"}]},
-      {"intent": "cardioia_orientacao_intent", "examples": [{"text": "o que e pressao alta"}, {"text": "como acompanhar a pressao"}, {"text": "o que significa medir a pressao"}, {"text": "quero orientacao sobre pressao"}, {"text": "como cuidar da saude do coracao"}]},
+      {"intent": "cardioia_orientacao_intent", "examples": [{"text": "o que e pressao alta"}, {"text": "o que significa pressao alta"}, {"text": "como acompanhar a pressao arterial"}, {"text": "quero orientacao sobre pressao arterial"}, {"text": "como cuidar da saude do coracao"}]},
       {"intent": "cardioia_urgencia_intent", "examples": [{"text": "estou com dor no peito"}, {"text": "estou com falta de ar"}, {"text": "sinto fraqueza de repente"}, {"text": "estou tendo sintomas graves"}, {"text": "preciso de atendimento urgente"}]},
       {"intent": "cardioia_ajuda_intent", "examples": [{"text": "o que voce faz"}, {"text": "preciso de ajuda"}, {"text": "quais opcoes existem"}, {"text": "como usar o assistente"}, {"text": "me ajude"}]},
       {"intent": "cardioia_encerrar_intent", "examples": [{"text": "tchau"}, {"text": "ate mais"}, {"text": "encerrar"}, {"text": "pode finalizar"}, {"text": "obrigado"}]}
@@ -97,6 +97,6 @@
     "variables": [],
     "data_types": [],
     "counterexamples": [],
-    "system_settings": {"topic_switch": {"enabled": true}, "disambiguation": {"enabled": true, "randomize": true, "max_suggestions": 5}, "spelling_auto_correct": true}
+    "system_settings": {"topic_switch": {"enabled": true}, "disambiguation": {"enabled": false, "randomize": true, "max_suggestions": 5}, "spelling_auto_correct": true}
   }
 }

@@ -13,6 +13,36 @@ def parse_pressure(message):
     return int(match.group(1)), int(match.group(2))
 
 
+def first_intent(response):
+    intents = response.get('intents', response.get('output', {}).get('intents', []))
+    if not intents:
+        return '', 0
+    return intents[0].get('intent', ''), intents[0].get('confidence', 0)
+
+
+def history_text(rows):
+    if not rows:
+        return 'Ainda não há medições registradas nesta sessão.'
+    measurements = [
+        f"{row['sistolica']} por {row['diastolica']} mmHg ({row['timestamp']})"
+        for row in rows
+    ]
+    return 'Medições registradas nesta sessão:\n' + '\n'.join(f'- {item}' for item in measurements)
+
+
+def pressure_interpretation(systolic, diastolic):
+    if systolic < 90 or diastolic < 60:
+        classification = 'abaixo do esperado'
+        guidance = 'Se esse valor se repetir ou vier acompanhado de tontura, desmaio ou fraqueza, procure orientação profissional.'
+    elif systolic >= 140 or diastolic >= 90:
+        classification = 'elevada'
+        guidance = 'Repita a medição em repouso e procure orientação profissional se os valores continuarem elevados.'
+    else:
+        classification = 'dentro de uma faixa geralmente adequada'
+        guidance = 'Continue acompanhando as medições em repouso e registre os resultados.'
+    return classification, guidance
+
+
 def create_chat_api(watson, db, table_name):
     bp = Blueprint('chat', __name__, url_prefix='/api')
 
@@ -40,8 +70,12 @@ def create_chat_api(watson, db, table_name):
         try:
             response = watson.send_message(session_id, message)
             text = watson.text_from_response(response)
+            intent, confidence = first_intent(response)
+            if confidence < 0.70:
+                intent = ''
+                text = ''
             result = {
-                'response': text or 'Não consegui formular uma resposta. Tente novamente.',
+                'response': text,
                 'session_id': session_id,
                 'intents': response.get('intents', response.get('output', {}).get('intents', [])),
                 'entities': response.get('entities', response.get('output', {}).get('entities', [])),
@@ -57,6 +91,31 @@ def create_chat_api(watson, db, table_name):
                         'diastolica': diastolic,
                         'source': 'watson-chat',
                     })
+                    classification, guidance = pressure_interpretation(systolic, diastolic)
+                    result['response'] = (
+                        f'Sua pressão foi de {systolic} por {diastolic} mmHg. '
+                        f'Esse valor está {classification} para muitos adultos em repouso. '
+                        f'{guidance} Uma única medição não confirma um diagnóstico.'
+                    )
+                else:
+                    result['response'] = 'Os valores parecem inconsistentes. Informe a sistólica por diastólica, por exemplo: 120 por 80.'
+            elif re.search(r'\b(press[aã]o|medir|medição|medicao)\b', message.lower()) and re.search(r'\b\d{2,3}\b', message):
+                result['response'] = 'Recebi apenas um valor. Informe a pressão completa no formato sistólica por diastólica, por exemplo: 120 por 80.'
+
+            if not result['response']:
+                if intent == 'cardioia_orientacao_intent':
+                    result['response'] = (
+                        'Pressão alta é quando a pressão do sangue nas artérias permanece elevada. '
+                        'Uma única medição não confirma um diagnóstico; procure orientação de um profissional de saúde.'
+                    )
+                elif intent == 'cardioia_historico_intent':
+                    result['response'] = history_text(db.fetch_where(table_name, 'session_id = ?', [session_id]))
+                elif intent == 'cardioia_registrar_medicao_intent':
+                    result['response'] = 'Informe a pressão completa no formato sistólica por diastólica, por exemplo: 120 por 80.'
+                elif intent == 'cardioia_urgencia_intent':
+                    result['response'] = 'Se os sintomas forem intensos ou persistentes, procure atendimento de emergência imediatamente. Não espere uma resposta do chatbot.'
+                else:
+                    result['response'] = 'Posso ajudar a registrar uma medição, consultar o histórico ou explicar o acompanhamento da pressão. Tente reformular sua mensagem.'
             return jsonify(result)
         except Exception as exc:
             logger.exception('Falha ao enviar mensagem ao Watson Assistant')

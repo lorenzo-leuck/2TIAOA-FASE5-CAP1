@@ -37,6 +37,7 @@ class WatsonAssistantService:
 
         self.client = AssistantV2(version='2021-06-14', authenticator=authenticator)
         self.client.set_service_url(service_url)
+        self.client.set_http_config({'timeout': 120})
 
     def create_session(self):
         response = self.client.create_session(

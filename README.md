@@ -24,12 +24,13 @@ Caique
 
 ## 📜 Descrição
 
-O CardioIA é um protótipo de assistente cardiológico conversacional desenvolvido para a Fase 5. A solução utiliza o IBM watsonx Assistant para interpretar mensagens em linguagem natural e responder a dúvidas gerais sobre acompanhamento da pressão arterial.
+O CardioIA é um protótipo de assistente cardiológico conversacional desenvolvido para a Fase 5. A solução utiliza o IBM watsonx Assistant para a construção de um Assistente Cardiológico Inteligente.
 
 O sistema é composto por uma aplicação React Native com Expo, executável no navegador ou em dispositivos móveis, um backend em Flask e um banco SQLite para armazenar medições da sessão. O backend mantém a comunicação segura com o Watson Assistant, cria sessões de conversa, encaminha mensagens e valida os dados recebidos.
 
 O assistente contempla os fluxos de saudação, registro de pressão, consulta de histórico, orientação geral, ajuda, encerramento e encaminhamento de sintomas potencialmente urgentes. O sistema não realiza diagnósticos, não prescreve medicamentos e não substitui profissionais de saúde. Para demonstração, devem ser utilizados somente dados fictícios ou anonimizados.
 
+VÍDEO: https://www.youtube.com/watch?v=w1zbWCWXwg0
 
 ## 📁 Estrutura de pastas
 
@@ -41,7 +42,7 @@ Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:
 
 - <b>config</b>: arquivos de configuração do assistente, incluindo `actions.json` e `assistant-blueprint.json`.
 
-- <b>document</b>: documentos solicitados pelas atividades, incluindo o enunciado.
+- <b>document</b>: documentos solicitados pelas atividades, incluindo o enunciado e o relatório do fluxo conversacional.
 
 - <b>scripts</b>: scripts auxiliares do projeto, incluindo a importação programática das Actions do Watson.
 
